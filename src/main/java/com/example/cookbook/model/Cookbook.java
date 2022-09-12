@@ -1,9 +1,6 @@
 package com.example.cookbook.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Cookbook {
@@ -12,7 +9,10 @@ public class Cookbook {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer cookbookId;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private Integer userId;
 
     public Integer getCookbookId() {

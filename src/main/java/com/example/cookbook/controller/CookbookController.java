@@ -15,10 +15,6 @@ public class CookbookController {
 
     @Autowired
     private CookbookRepository cookbookRepository;
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public ResponseEntity<String> home(@RequestParam(value = "name") String name) {
-        return new ResponseEntity<String>("hello " + name, HttpStatus.OK);
-    }
 
     @PostMapping("/cookbook")
     public ResponseEntity<Cookbook> create(@RequestBody Cookbook newCookbook) {
@@ -49,6 +45,32 @@ public class CookbookController {
         if(cookbookInDb.isPresent()) {
             cookbookRepository.deleteById(cookbookId);
             return new ResponseEntity("Cookbook with id of " + cookbookId + " deleted", HttpStatus.OK);
+        }
+        return new ResponseEntity("Cookbook with id of " + cookbookId + " not found", HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/cookbook")
+    public ResponseEntity<Cookbook> updateById(@RequestBody Cookbook updatedCookbook) {
+
+        Optional<Cookbook> cookbookInDb = cookbookRepository.findById(updatedCookbook.getCookbookId());
+
+        if(cookbookInDb.isPresent()) {
+            Cookbook savedCookbook = cookbookRepository.save(updatedCookbook);
+            return new ResponseEntity<Cookbook>(savedCookbook, HttpStatus.OK);
+        }
+        return new ResponseEntity("Cookbook with id of " + updatedCookbook.getCookbookId() + " not found", HttpStatus.NOT_FOUND);
+    }
+
+    @PatchMapping("/cookbook/updateName")
+    public ResponseEntity<Cookbook> updateNameById(@RequestParam(value = "cookbookId") int cookbookId, @RequestParam(value = "name") String name) {
+
+        Optional<Cookbook> cookbookInDb = cookbookRepository.findById(cookbookId);
+
+        if(cookbookInDb.isPresent()) {
+            cookbookInDb.get().setName(name);
+            Cookbook savedCookbook = cookbookRepository.save(cookbookInDb.get());
+            return new ResponseEntity<Cookbook>(savedCookbook, HttpStatus.OK);
+
         }
         return new ResponseEntity("Cookbook with id of " + cookbookId + " not found", HttpStatus.NOT_FOUND);
     }
