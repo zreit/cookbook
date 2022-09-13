@@ -1,10 +1,12 @@
 package com.example.cookbook.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class AppUser {
 
 
@@ -24,6 +26,17 @@ public class AppUser {
     @OneToMany
     @JoinColumn(name = "userId")
     private Set<Cookbook> cookbooks;
+
+    @JsonIgnore
+    private String secret;
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
+    }
 
     public Integer getUserid() {
         return userId;

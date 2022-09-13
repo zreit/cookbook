@@ -3,7 +3,7 @@ package com.example.cookbook.model;
 import javax.persistence.*;
 
 @Entity
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Cookbook {
 
     @Id

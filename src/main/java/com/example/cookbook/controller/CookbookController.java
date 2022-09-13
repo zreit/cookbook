@@ -23,7 +23,7 @@ public class CookbookController {
     }
 
     @GetMapping("/cookbook/all")
-    public ResponseEntity<Iterable<Cookbook>> getAll() {
+    public ResponseEntity<Iterable<Cookbook>> getAll(@RequestHeader("api-secret") String secret) {
         Iterable<Cookbook> allCookbooksInDb = cookbookRepository.findAll();
         return new ResponseEntity<Iterable<Cookbook>>(allCookbooksInDb, HttpStatus.OK);
     }
