@@ -2,6 +2,7 @@ package com.example.cookbook.controller;
 
 import com.example.cookbook.model.Cookbook;
 //import com.example.cookbook.repository.CookbookRepository;
+import com.example.cookbook.repository.AppUserRepository;
 import com.example.cookbook.repository.CookbookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,9 @@ public class CookbookController {
     @Autowired
     private CookbookRepository cookbookRepository;
 
+    @Autowired
+    private AppUserRepository appUserRepository;
+
     @PostMapping("/cookbook")
     public ResponseEntity<Cookbook> create(@RequestBody Cookbook newCookbook) {
         cookbookRepository.save(newCookbook);
@@ -24,8 +28,14 @@ public class CookbookController {
 
     @GetMapping("/cookbook/all")
     public ResponseEntity<Iterable<Cookbook>> getAll(@RequestHeader("api-secret") String secret) {
-        Iterable<Cookbook> allCookbooksInDb = cookbookRepository.findAll();
-        return new ResponseEntity<Iterable<Cookbook>>(allCookbooksInDb, HttpStatus.OK);
+
+        var userBySecret = appUserRepository.findBySecret(secret);
+
+        if(userBySecret.isPresent()) {
+            Iterable<Cookbook> allCookbooksInDb = cookbookRepository.findAllByUserId(userBySecret.get().getUserid());
+            return new ResponseEntity<Iterable<Cookbook>>(allCookbooksInDb, HttpStatus.OK);
+        }
+        return new ResponseEntity("Invalid API secret", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/cookbook")

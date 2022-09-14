@@ -9,5 +9,7 @@ public interface AppUserRepository extends CrudRepository<AppUser, Integer> {
 
     Optional<AppUser> findByEmailAndPassword(String email, String password);
 
+    Optional<AppUser> findBySecret(String secret);
+
 
 }
