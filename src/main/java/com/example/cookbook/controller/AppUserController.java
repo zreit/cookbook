@@ -2,6 +2,7 @@ package com.example.cookbook.controller;
 
 import com.example.cookbook.model.AppUser;
 import com.example.cookbook.repository.AppUserRepository;
+import com.example.cookbook.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,17 +16,17 @@ public class AppUserController {
     @Autowired
     private AppUserRepository appUserRepository;
 
+    @Autowired
+    private AppUserService appUserService;
+
     @PostMapping("/register")
     public ResponseEntity<AppUser> create(@RequestBody AppUser newAppUser) {
-        newAppUser.setSecret(UUID.randomUUID().toString());
-        appUserRepository.save(newAppUser);
-        return new ResponseEntity<AppUser>(newAppUser, HttpStatus.OK);
+        return appUserService.addUser(newAppUser);
     }
 
     @GetMapping("/user/all")
-    public ResponseEntity<Iterable<AppUser>> getAll() {
-        Iterable<AppUser> allUserInDb = appUserRepository.findAll();
-        return new ResponseEntity<Iterable<AppUser>>(allUserInDb, HttpStatus.OK);
+    public ResponseEntity<Iterable<AppUser>>getAll() {
+        return appUserService.getAll();
     }
 
     @GetMapping("/user")
