@@ -1,25 +1,32 @@
 package com.example.cookbook.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import lombok.*;
 import javax.persistence.*;
 import java.util.Set;
 
+@NoArgsConstructor
+@RequiredArgsConstructor
+@Getter
+@Setter
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class AppUser {
 
-
+    @NonNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
+    @NonNull
     @Column(unique = true, nullable = false)
     private String username;
 
+    @NonNull
     @Column(unique = true, nullable = false)
     private String email;
 
+    @NonNull
     @Column(nullable = false)
     private String password;
 
@@ -27,55 +34,7 @@ public class AppUser {
     @JoinColumn(name = "userId")
     private Set<Cookbook> cookbooks;
 
+    @NonNull
     @JsonIgnore
     private String secret;
-
-    public String getSecret() {
-        return secret;
-    }
-
-    public void setSecret(String secret) {
-        this.secret = secret;
-    }
-
-    public Integer getUserid() {
-        return userId;
-    }
-
-    public void setUserid(Integer userid) {
-        this.userId = userid;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    //@JSONIgnore
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Set<Cookbook> getCookbooks() {
-        return cookbooks;
-    }
-
-    public void setCookbooks(Set<Cookbook> cookbooks) {
-        this.cookbooks = cookbooks;
-    }
 }

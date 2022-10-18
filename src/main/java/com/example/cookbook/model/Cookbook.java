@@ -1,7 +1,13 @@
 package com.example.cookbook.model;
 
 import javax.persistence.*;
+import lombok.*;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Cookbook {
@@ -16,27 +22,4 @@ public class Cookbook {
     @Column(nullable = false)
     private Integer userId;
 
-    public Integer getCookbookId() {
-        return cookbookId;
-    }
-
-    public void setCookbookId(Integer cookbookId) {
-        this.cookbookId = cookbookId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
 }

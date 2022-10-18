@@ -52,13 +52,13 @@ public class AppUserController {
     @PutMapping("/user")
     public ResponseEntity<AppUser> updateById(@RequestBody AppUser updatedUser) {
 
-        Optional<AppUser> userInDb = appUserRepository.findById(updatedUser.getUserid());
+        Optional<AppUser> userInDb = appUserRepository.findById(updatedUser.getUserId());
 
         if(userInDb.isPresent()) {
             AppUser savedUser = appUserRepository.save(updatedUser);
             return new ResponseEntity<AppUser>(savedUser, HttpStatus.OK);
         }
-        return new ResponseEntity("User with id of " + updatedUser.getUserid() + " not found", HttpStatus.NOT_FOUND);
+        return new ResponseEntity("User with id of " + updatedUser.getUserId() + " not found", HttpStatus.NOT_FOUND);
     }
 
     @PatchMapping("/user/updateName")

@@ -32,7 +32,7 @@ public class CookbookController {
         var userBySecret = appUserRepository.findBySecret(secret);
 
         if(userBySecret.isPresent()) {
-            Iterable<Cookbook> allCookbooksInDb = cookbookRepository.findAllByUserId(userBySecret.get().getUserid());
+            Iterable<Cookbook> allCookbooksInDb = cookbookRepository.findAllByUserId(userBySecret.get().getUserId());
             return new ResponseEntity<Iterable<Cookbook>>(allCookbooksInDb, HttpStatus.OK);
         }
         return new ResponseEntity("Invalid API secret", HttpStatus.BAD_REQUEST);

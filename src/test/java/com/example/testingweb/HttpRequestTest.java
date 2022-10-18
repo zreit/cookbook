@@ -9,5 +9,5 @@ public class HttpRequestTest {
     @LocalServerPort
     private int port;
 
-    @Autowired
+    //@Autowired
 }
