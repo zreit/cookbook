@@ -31,11 +31,7 @@ public class AppUserController {
 
     @GetMapping("/user")
     public ResponseEntity<AppUser> getById(@RequestParam(value = "userId") int userId) {
-        Optional<AppUser> userInDb = appUserRepository.findById(userId);
-        if(userInDb.isPresent()) {
-            return new ResponseEntity<AppUser>(userInDb.get(), HttpStatus.OK);
-        }
-        return new ResponseEntity("No user found with the id of " + userId, HttpStatus.NOT_FOUND);
+        return appUserService.getById(userId);
     }
 
     @DeleteMapping("/user")
