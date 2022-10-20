@@ -4,9 +4,12 @@ WORKDIR /app
 
 EXPOSE 8090
 
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
+#COPY .mvn/ .mvn
+#COPY mvnw pom.xml ./
 
-RUN ./mvnw dependency:go-offline
+COPY . .
+
+#RUN ./mvnw dependency:go-offline
+RUN ./mvnw package
 
 CMD ["./mvnw", "spring-boot:run"]

@@ -2,6 +2,7 @@ package com.example.cookbook.service;
 
 import com.example.cookbook.model.AppUser;
 import com.example.cookbook.repository.AppUserRepository;
+import org.apache.coyote.Response;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -14,6 +15,8 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 
@@ -65,8 +68,11 @@ class AppUserServiceTest {
         underTest.getById(1);
 
         verify(appUserRepository).findById(1);
-    }
 
+        var expected = new ResponseEntity("No user found with the id of 1", HttpStatus.NOT_FOUND);
+
+        assertThat(underTest.getById(1)).isEqualTo(expected);
+    }
     @Disabled
     @Test
     void canGetById() {
@@ -75,11 +81,16 @@ class AppUserServiceTest {
         AppUser foundUser = appUserRepository.findById(user.getUserId()).get();
 
         assertThat(foundUser).isEqualTo(user);*/
+
+        underTest.addUser(user);
+
+        var expected = new ResponseEntity<AppUser>(user, HttpStatus.OK);
+
         underTest.getById(2);
 
         verify(appUserRepository).findById(2);
 
-        assertThat(underTest.getById(2)).isEqualTo(user);
+        assertThat(underTest.getById(2)).isEqualTo(expected);
     }
 
 
